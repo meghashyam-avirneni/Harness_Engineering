@@ -32,13 +32,13 @@
 ### System 2 — Context strategy
 
 5. **The reduction.**
-   The live System 2 run generated `budget.json`. The baseline transcript measured **38,708 tokens**, while the assembled context measured **16,786 tokens**, giving a **56.63% reduction**. The final System 2 test suite produced **28 passed and 2 skipped**.
+   The live System 2 run generated `budget.json`. The baseline transcript measured **38,708 tokens**, while the assembled context measured **16,786 tokens**, giving a **56.63% reduction**. The final System 2 test suite produced **30 passed**.
 
 6. **Summarize vs preserve.**
-   The System 2 implementation separates information that can be compressed from information that must remain exact, particularly structured case facts and other information where byte-level fidelity matters. The final cumulative implementation was taken from `04-assemble-and-locate/solution` and the local suite produced **28 passed, 2 skipped**. The live run generated the expected `budget.json` and recorded the assembled-context token budget.
+   The System 2 implementation separates information that can be compressed from information that must remain exact, particularly structured case facts and other information where byte-level fidelity matters. The final cumulative implementation was taken from `04-assemble-and-locate/solution` and the local suite produced **30 passed**. The live run generated the expected `budget.json` and recorded the assembled-context token budget.
 
 7. **Facts block.**
-   The live evaluation in `eval.jsonl` produced **6/6 passed**. The control evaluation in `eval_control.jsonl` showed Q1 as an unexpected pass and Q6 as the expected fail when the case-facts context was stripped. The final implementation also passed **28 tests with 2 skipped**, while the live evaluation provides the runtime evidence for answerability and context preservation.
+   The live evaluation in `eval.jsonl` produced **6/6 passed**. The control evaluation in `eval_control.jsonl` showed Q1 as an unexpected pass and Q6 as the expected fail when the case-facts context was stripped. The final implementation also passed **30 tests**, while the live evaluation provides the runtime evidence for answerability and context preservation.
 
 ---
 
@@ -88,7 +88,7 @@
     A deterministic behavior is the System 3 read-only tool allowlist in `.claude/skills/deploy-check/SKILL.md`, where permitted Git/GitHub commands are explicitly constrained. Another deterministic example is System 4's bounded hot-state artifact, which is measured at **643 bytes** in the actual run. Prompt guidance is appropriate for behavior such as asking an agent to summarize findings or choose an explanation style, where strict enforcement is unnecessary. Deterministic code is preferable when violating the behavior could cause data corruption, unauthorized mutation, or an uncontrolled resource cost.
 
 16. **Context, two faces.**
-    System 2 manages context **within a session** by pruning and assembling the most useful information into a bounded context, with a live run reducing the transcript from **38,708 to 16,786 tokens (56.63%)**, while its final test suite produced **28 passed and 2 skipped**. System 4 manages context **across shifts/sessions** by persisting a compact `hot_state.json`, which was **643 bytes** in my actual run, and a **322-byte** scratchpad. Both apply the same principle: do not carry the entire history forward when a smaller, structured representation is sufficient. The mechanism differs: System 2 performs context engineering during assembly, while System 4 persists durable state between executions.
+    System 2 manages context **within a session** by pruning and assembling the most useful information into a bounded context, with a live run reducing the transcript from **38,708 to 16,786 tokens (56.63%)**, while its final test suite produced **30 passed**. System 4 manages context **across shifts/sessions** by persisting a compact `hot_state.json`, which was **643 bytes** in my actual run, and a **322-byte** scratchpad. Both apply the same principle: do not carry the entire history forward when a smaller, structured representation is sufficient. The mechanism differs: System 2 performs context engineering during assembly, while System 4 persists durable state between executions.
 
 17. **Reliability you can't see in one run.**
     The System 4 test `test_two_forks_produce_independent_scratchpads` verifies that two forked hypotheses do not accidentally share mutable scratchpad state. A single successful run would not necessarily reveal this isolation problem because only one fork might be exercised. The test suite explicitly passed this test as part of the **33 passed** System 4 result. This matters because shared state could cause one hypothesis to contaminate another even when individual runs appear successful.
