@@ -1,7 +1,7 @@
 ============================= test session starts ==============================
 platform linux -- Python 3.13.0, pytest-8.4.2, pluggy-1.6.0 -- /opt/venv/bin/python
 cachedir: .pytest_cache
-rootdir: /workspace/Engineer a Long-Conversation Context Strategy for a Retail Support Copilot/01-prune-tool-output/starter
+rootdir: /workspace/Engineer a Long-Conversation Context Strategy for a Retail Support Copilot/04-assemble-and-locate/solution
 configfile: pyproject.toml
 plugins: anyio-4.14.1
 collecting ... collected 30 items
@@ -37,4 +37,4 @@ tests/test_transcript.py::test_transcript_loader_token_count_in_engineered_range
 tests/test_transcript.py::test_active_turns_accessor PASSED              [ 96%]
 tests/test_transcript.py::test_canonical_token_function_is_used_everywhere PASSED [100%]
 
-======================== 28 passed, 2 skipped in 0.97s =========================
+======================== 28 passed, 2 skipped in 0.81s =========================
